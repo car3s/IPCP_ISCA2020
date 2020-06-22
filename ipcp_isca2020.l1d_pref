@@ -358,9 +358,9 @@ void CACHE::l1d_prefetcher_initialize()
     for( int i=0; i <NUM_CPUS; i++)
     {
         prefetch_degree[cpu][0] = 0;
-        prefetch_degree[cpu][1] = 8;
-        prefetch_degree[cpu][2] = 2;
-        prefetch_degree[cpu][3] = 2;
+        prefetch_degree[cpu][1] = 6;
+        prefetch_degree[cpu][2] = 3;
+        prefetch_degree[cpu][3] = 3;
         prefetch_degree[cpu][4] = 1;
 
     }
@@ -426,8 +426,8 @@ void CACHE::l1d_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit
                 {
 		    //For GS class, degree is incremented/decremented by 2.
                     prefetch_degree[cpu][i]++;
-                    if(prefetch_degree[cpu][i] > 8)
-                        prefetch_degree[cpu][i] = 8; 
+                    if(prefetch_degree[cpu][i] > 6)
+                        prefetch_degree[cpu][i] = 6; 
                 }
                 else if(prefetch_degree[cpu][i] > 3)
                     prefetch_degree[cpu][i] = 3;

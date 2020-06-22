@@ -214,9 +214,6 @@ uint32_t CACHE::l2c_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache
     int num_prefs = 0;
     uint64_t bl_index = 0;
 if(NUM_CPUS == 1){
-   if (MSHR.occupancy < (1*MSHR.SIZE)/2)
-    prefetch_degree = 4;
-   else 
     prefetch_degree = 3;  
 } else {                                    // tightening the degree for multi-core
     prefetch_degree = 2;
