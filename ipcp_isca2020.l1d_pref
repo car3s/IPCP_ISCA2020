@@ -9,9 +9,9 @@ Neelu Shivprakash kalani - neeluk@cse.iitk.ac.in
 /*************************************************************************************************************************
 Source code of "Bouquet of Instruction Pointers: Instruction Pointer Classifier-based Spatial Hardware Prefetching" 
 appeared (to appear) in ISCA 2020: https://www.iscaconf.org/isca2020/program/. The paper is available at 
-https://www.cse.iitk.ac.in/users/biswap/ipcp.html. The source code can be used with the ChampSim simulator 
+https://www.cse.iitk.ac.in/users/biswap/IPCP_ISCA20.pdf. The source code can be used with the ChampSim simulator 
 https://github.com/ChampSim . Note that the authors have used a modified ChampSim that supports detailed virtual 
-memory sub-system (5-level PTWs, MMU caches etc.). Performance numbers may increase/decrease marginally
+memory sub-system. Performance numbers may increase/decrease marginally
 based on the virtual memory-subsystem support. Also for PIPT L1-D caches, this code may demand 1 to 1.5KB additional 
 storage for various hardware tables.     
 **************************************************************************************************************************/
