@@ -236,10 +236,14 @@ int index = ip & ((1 << NUM_IP_INDEX_BITS_L2)-1);
 
         // issue a next line prefetch upon encountering new IP
         uint64_t pf_address = ((addr>>LOG2_BLOCK_SIZE)+1) << LOG2_BLOCK_SIZE;
-        #ifdef DO_PREF
-        prefetch_line(ip, addr, pf_address, FILL_L2, 0);
-        #endif
-        SIG_DP(cout << "1, ");
+	//Ensure it lies on the same 4 KB page.
+	if ((pf_address >> LOG2_PAGE_SIZE) == (addr >> LOG2_PAGE_SIZE))
+	{
+        	#ifdef DO_PREF
+        	prefetch_line(ip, addr, pf_address, FILL_L2, 0);
+        	#endif
+        	SIG_DP(cout << "1, ");
+	}
         return metadata_in;
     }
     else {                                                  // if same IP encountered, set valid bit
@@ -285,7 +289,12 @@ cout << ", " << stride << "; ";
 
 // if no prefetches are issued till now, speculatively issue a next_line prefetch
 if(num_prefs == 0 && spec_nl_l2[cpu] == 1){                                        // NL IP
-    uint64_t pf_address = ((addr>>LOG2_BLOCK_SIZE)+1) << LOG2_BLOCK_SIZE;  
+    uint64_t pf_address = ((addr>>LOG2_BLOCK_SIZE)+1) << LOG2_BLOCK_SIZE; 
+    //If it is not in the same 4 KB page, return.
+    if ((pf_address >> LOG2_PAGE_SIZE) != (addr >> LOG2_PAGE_SIZE))
+    {
+        return metadata_in;
+    } 
     bl_index = hash_bloom_l2(pf_address);
     stats_l2[cpu][NL_TYPE].bl_request[bl_index] = 1;
     uint32_t metadata = encode_metadata_l2(1, NL_TYPE, spec_nl_l2[cpu]);

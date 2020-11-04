@@ -775,7 +775,14 @@ if(num_prefs == 0 && spec_nl[cpu] == 1){
         flag_nl[cpu] = 1;
     else {
         uint64_t pf_address = ((addr>>LOG2_BLOCK_SIZE)+1) << LOG2_BLOCK_SIZE; 
-        bl_index = hash_bloom(pf_address);
+        if((pf_address >> LOG2_PAGE_SIZE) != (addr >> LOG2_PAGE_SIZE))
+        {
+                // update the IP table entries and return if NL request is not to the same 4 KB page
+                trackers_l1[cpu][index].last_line_offset = line_offset;
+                trackers_l1[cpu][index].last_vpage = curr_page;
+                return;
+        }
+	bl_index = hash_bloom(pf_address);
         stats[cpu][NL_TYPE].bl_request[bl_index] = 1; 
         metadata = encode_metadata(1, NL_TYPE, spec_nl[cpu]);
         #ifdef DO_PREF
